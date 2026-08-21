@@ -5,7 +5,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8002"
 const TOKEN = process.env.NEXT_PUBLIC_TOKEN || "user_3I59hLkVRqSndxMj9KVIpYnwhDw"
 
 export default function ChatPage() {
-  const [mensajes, setMensajes] = useState([])
+  const [mensajes, setMensajes] = useState<{role:string,contenido:string,categoria:string}[]>([])
   const [input, setInput] = useState("")
   const [cargando, setCargando] = useState(false)
 
@@ -25,6 +25,7 @@ export default function ChatPage() {
         body: JSON.stringify({ mensaje: pregunta })
       })
 
+      if (!res.body) return
       const reader = res.body.getReader()
       const decoder = new TextDecoder()
 
