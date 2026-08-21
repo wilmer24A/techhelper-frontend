@@ -1,8 +1,8 @@
 "use client"
 import { useState, useEffect } from "react"
 
-const API_URL = "http://localhost:8002"
-const TOKEN = "user_3I59hLkVRqSndxMj9KVIpYnwhDw"
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8002"
+const TOKEN = process.env.NEXT_PUBLIC_TOKEN || "user_3I59hLkVRqSndxMj9KVIpYnwhDw"
 
 export default function PerfilPage() {
   const [perfil, setPerfil] = useState(null)
