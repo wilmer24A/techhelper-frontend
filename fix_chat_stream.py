@@ -1,4 +1,4 @@
-"use client"
+content = '''"use client"
 import { useState } from "react"
 
 const API_URL = "http://localhost:8002"
@@ -33,7 +33,7 @@ export default function ChatPage() {
         if (done) break
 
         const chunk = decoder.decode(value)
-        const lines = chunk.split("\n")
+        const lines = chunk.split("\\n")
 
         for (const line of lines) {
           if (!line.startsWith("data: ")) continue
@@ -112,4 +112,9 @@ export default function ChatPage() {
       </div>
     </div>
   )
-}
+}'''
+
+with open('app/chat/page.tsx', 'w', encoding='utf-8') as f:
+    f.write(content)
+
+print("Chat con streaming actualizado")
