@@ -13,7 +13,7 @@ export default function ChatPage() {
     if (!input.trim() || cargando) return
     const pregunta = input.trim()
     setInput("")
-    setMensajes(prev => [...prev, { role: "user", contenido: pregunta }])
+    setMensajes(prev => [...prev, { role: "user", contenido: pregunta, categoria: "" }])
     setCargando(true)
 
     setMensajes(prev => [...prev, { role: "agent", contenido: "", categoria: "" }])
