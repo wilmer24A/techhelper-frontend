@@ -19,50 +19,23 @@ export default function ChatPage() {
     setMensajes(prev => [...prev, { role: "agent", contenido: "", categoria: "" }])
 
     try {
-      const res = await fetch(API_URL + "/chat/stream", {
+      const res = await fetch(API_URL + "/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": "Bearer " + TOKEN },
         body: JSON.stringify({ mensaje: pregunta })
       })
 
       if (!res.body) return
-      const reader = res.body.getReader()
-      const decoder = new TextDecoder()
-
-      while (true) {
-        const { done, value } = await reader.read()
-        if (done) break
-
-        const chunk = decoder.decode(value)
-        const lines = chunk.split("\n")
-
-        for (const line of lines) {
-          if (!line.startsWith("data: ")) continue
-          try {
-            const data = JSON.parse(line.slice(6))
-            if (data.token) {
-              setMensajes(prev => {
-                const nuevo = [...prev]
-                nuevo[nuevo.length - 1] = {
-                  ...nuevo[nuevo.length - 1],
-                  contenido: nuevo[nuevo.length - 1].contenido + data.token
-                }
-                return nuevo
-              })
-            }
-            if (data.done) {
-              setMensajes(prev => {
-                const nuevo = [...prev]
-                nuevo[nuevo.length - 1] = {
-                  ...nuevo[nuevo.length - 1],
-                  categoria: data.categoria
-                }
-                return nuevo
-              })
-            }
-          } catch {}
+      const data = await res.json()
+      setMensajes(prev => {
+        const nuevo = [...prev]
+        nuevo[nuevo.length - 1] = {
+          role: "agent",
+          contenido: data.respuesta,
+          categoria: data.categoria || ""
         }
-      }
+        return nuevo
+      })
     } catch {
       setMensajes(prev => {
         const nuevo = [...prev]
