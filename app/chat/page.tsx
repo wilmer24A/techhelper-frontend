@@ -19,7 +19,7 @@ export default function ChatPage() {
     setMensajes(prev => [...prev, { role: "agent", contenido: "", categoria: "" }])
 
     try {
-      const res = await fetch(API_URL + "/chat", {
+      const res = await fetch(API_URL + "/agente", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": "Bearer " + TOKEN },
         body: JSON.stringify({ mensaje: pregunta })
