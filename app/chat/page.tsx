@@ -22,7 +22,7 @@ export default function ChatPage() {
       const res = await fetch(API_URL + "/agente", {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": "Bearer " + TOKEN },
-        body: JSON.stringify({ mensaje: pregunta })
+        body: JSON.stringify({ pregunta: pregunta, usuario_id: "web_user" })
       })
 
       if (!res.body) return
